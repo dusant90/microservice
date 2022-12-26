@@ -51,7 +51,6 @@ public class OrderService {
         if (!result) {
             throw new IllegalAccessException("Product not in stock");
         }
-
         orderRepository.save(order);
     }
 
