@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClient;
 
     public void placeOrder(OrderRequest orderRequest) throws IllegalAccessException {
         Order order = new Order();
@@ -39,8 +39,8 @@ public class OrderService {
                 .map(OrderLineItems::getSkuCode)
                 .collect(Collectors.toList());
 
-        InventoryResponse[] inventoryResponses =  webClient.get()
-                .uri("http://localhost:8082/api/inventory",uriBuilder-> uriBuilder.queryParam(
+        InventoryResponse[] inventoryResponses =  webClient.build().get()
+                .uri("http://inventory-service/api/inventory",uriBuilder-> uriBuilder.queryParam(
                             "skuCode" , skuCodes).build())
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
