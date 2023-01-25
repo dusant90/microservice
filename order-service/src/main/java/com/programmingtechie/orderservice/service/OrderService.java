@@ -24,7 +24,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClient;
 
-    public void placeOrder(OrderRequest orderRequest) throws IllegalAccessException {
+    public String placeOrder(OrderRequest orderRequest) throws IllegalAccessException {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
 
@@ -52,6 +52,7 @@ public class OrderService {
             throw new IllegalAccessException("Product not in stock");
         }
         orderRepository.save(order);
+        return "Order placed succesfully";
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
